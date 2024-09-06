@@ -4,7 +4,7 @@
 pop_list="pop11_list"
 
 # Initialize a variable to hold the intersection result
-intersection_result="all_populations_sites"
+intersection_result="nonparalog_sites"
 
 # Read each population name from the list
 while IFS= read -r pop_name; do
