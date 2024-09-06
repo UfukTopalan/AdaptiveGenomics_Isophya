@@ -4,15 +4,15 @@ This repository is dedicated to my research and analysis of genetic data, utiliz
 
 ## Structure
 
-`scripts_folder/`: Python/R/shell scripts used for all analysis.
+- `scripts_folder/`: Python/R/shell scripts used for all analysis.
 
 ## Tools and Libraries
 
 ## Python:
-pandas, NumPy, SciPy for data manipulation and statistical tests
-matplotlib, seaborn for visualization
+- pandas, NumPy, SciPy for data manipulation and statistical tests
+- matplotlib, seaborn for visualization
 
 ## R:
 
-ggplot2, dplyr, viridis for statistical modeling and plotting
-LEA, lfmm, qvalue, vegan for environmental and genetic association analysis
+- ggplot2, dplyr, viridis for statistical modeling and plotting
+- LEA, lfmm, qvalue, vegan for environmental and genetic association analysis
