@@ -39,7 +39,7 @@ fstforIBD <- dist(all_pops_fst$Fst_forIBD)
 geo_matrix <- as.dist(geographic_dist$Distance)
 
 # Perform Mantel test
-mantel_result <- mantel(fstforIBD, geo_matrix, method = "spearman", permutations = 999)
+mantel_result <- mantel(fstforIBD, geo_matrix, method = "pearson", permutations = 999)
 
 # Save the plot
 png(filename = opt$output, width = 800, height = 600)
@@ -50,15 +50,15 @@ plot(geo_matrix, fstforIBD, main = "Isolation By Distance in Isophya Rizeensis",
 abline(lm(fstforIBD ~ geo_matrix), lwd = 3, col ="red")
 
 # Annotate with Mantel statistics
-s_mantel_r <- mantel_result$statistic
-s_significance <- mantel_result$signif
+#s_mantel_r <- mantel_result$statistic
+#s_significance <- mantel_result$signif
 p_mantel_r <- mantel_result$statistic
 p_significance <- mantel_result$signif
 
 mtext(side = 1, line = -4.5, at = 5, adj = -1.8, text = paste("Pearson Mantel statistic r:", p_mantel_r))
 mtext(side = 1, line = -3.5, at = 5, adj = -2.2, text = paste("Pearson Significance:", p_significance))
-mtext(side = 1, line = -2.5, at = 5, adj = -1.7, text = paste("Spearman Mantel statistic r:", s_mantel_r))
-mtext(side = 1, line = -1.5, at = 5, adj = -2.1, text = paste("Spearman Significance:", s_significance))
+#mtext(side = 1, line = -2.5, at = 5, adj = -1.7, text = paste("Spearman Mantel statistic r:", s_mantel_r))
+#mtext(side = 1, line = -1.5, at = 5, adj = -2.1, text = paste("Spearman Significance:", s_significance))
 
 # Close the graphics device
 dev.off()
