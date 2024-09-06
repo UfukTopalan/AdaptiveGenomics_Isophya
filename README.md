@@ -8,7 +8,6 @@ This repository contains my analysis of genetic data. The project involves using
 ## Structure of the Repository
 - `data/`: Contains the raw and processed genetic data.
 - `scripts/`: Python/R scripts used for analysis.
-- `notebooks/`: Jupyter notebooks with step-by-step analysis.
 
 ## Tools and Libraries
 - Python/R/bash/java
