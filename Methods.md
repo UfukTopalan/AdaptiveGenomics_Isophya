@@ -1,4 +1,4 @@
-# STUDY
+## STUDY
 
 Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that inhabits a broad altitudinal range from sea level to 2500 meters. We aimed to understand how this species adapts to varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.
 
@@ -126,7 +126,7 @@ To run the script:
 sbatch get_high_coveragesites.sh pop11_list
 ```
 
-Now we're doing the same work as above, extracting the sites from mafs file, and than running the loop (but updated it for a different output) for obtaining the sites that are present across all populations. Then we must do one more step, we will continue with the sites that appear on both 6x coverage sites file and non_paralogs sites files. 
+Now we're doing the same work as above, extracting the sites from mafs file, and than running the loop (don't forget to update it for a different output) for obtaining the sites that are present across all populations. Then we must do one more step, we will continue with the sites that appear on both 6x coverage sites file and non_paralogs sites files. 
 
 For that, let's crerate our final sites file then also index it for genotyping.
 
