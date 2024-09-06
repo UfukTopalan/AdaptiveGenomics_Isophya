@@ -123,7 +123,7 @@ Now, for obtaining and continue only with high coverage sites which this time we
 
 To run the script:
 ```bash
-sbatch get_high_coveragesites.sh pop11_list
+sbatch high_coverage.sh pop11_list
 ```
 
 Now we're doing the same work as above, extracting the sites from mafs file, and than running the loop (don't forget to update it for a different output) for obtaining the sites that are present across all populations. Then we must do one more step, we will continue with the sites that appear on both 6x coverage sites file and non_paralogs sites files. 
