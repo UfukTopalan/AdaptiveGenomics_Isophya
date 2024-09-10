@@ -229,7 +229,7 @@ Rscript plot_Admixture.R isophya71_admix2_run1.qopt isophya71.info
 
 ## Discriminant Analysis of Principal Components (DAPC)
 
-Discriminant Analysis of Principal Components (DAPC) is employed to identify and visualize the genetic structure of populations by maximizing the separation between pre-defined groups while retaining as much genetic variation as possible. This analysis helps in assessing how well individuals from different populations can be distinguished based on their genetic data.
+Discriminant Analysis of Principal Components (DAPC) is employed to identify and visualize the genetic structure of populations by maximizing the separation between pre-defined groups while retaining as much genetic variation as possible. This analysis helps in assessing how well individuals from different populations can be distinguished based on their genetic data. We will use the [adegenet](https://adegenet.r-forge.r-project.org/) package in R for this analysis.
 
 ### Steps for DAPC Analysis
 
@@ -246,7 +246,7 @@ grep -v "contig" isophya.vcf > isophya71.vcf
 ```
 ### **Perform DAPC Analysis**:
 
-*Option 1*: Use the find.cluster function in adegenet to determine the optimal number of clusters and then run DAPC.
+*Option 1*: Use the `find.cluster` function in `adegenet` to determine the optimal number of clusters and then run DAPC.
 
 *Option 2*: Provide prior clustering information if available. In this analysis, individuals are assigned to two groups based on color and geographic origin:
 - Group 1: Dark individuals
@@ -285,5 +285,5 @@ $post.grp.size
 ```bash
 sbatch DAPC.sh
 ```
-- **Outliers Detection**: Identify outliers and SNPs with the most significant contributions to discrimination using the snpzip function with the "average" method. Check the `loadings_average.txt` file and `Rplot.pdf` for details on thresholds and outlier SNPs.
+- **Outliers Detection**: Identify outliers and SNPs with the most significant contributions to discrimination using the [snpzip](https://rdrr.io/cran/adegenet/man/snpzip.html) function with the "average" method. Check the `loadings_average.txt` file and `Rplot.pdf` for details on thresholds and outlier SNPs. Also you can use other methods for setting the treshold by using different hierarchical clustering methods such as "ward", "centroid" or "median".
 The output files from this analysis will help in understanding the genetic differentiation between groups and provide visual and statistical evidence of population structure.
