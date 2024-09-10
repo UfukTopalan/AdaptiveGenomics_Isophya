@@ -233,18 +233,18 @@ Discriminant Analysis of Principal Components (DAPC) is employed to identify and
 
 ### Steps for DAPC Analysis
 
-## **Convert BCF to VCF Format**: 
+### **Convert BCF to VCF Format**: 
 First, convert the binary VCF file (.bcf) obtained from genotyping to a standard VCF file (.vcf) using the following command:
 ```bash
 module load bcftools
 bcftools view isophya71.bcf > isophya.vcf
 ```
-## **Remove Unwanted Lines**:
+### **Remove Unwanted Lines**:
 Since the converted VCF file may contain extraneous "contigs" information, clean the VCF file by removing these lines:
 ```bash
 grep -v "contig" isophya.vcf > isophya71.vcf
 ```
-## **Perform DAPC Analysis**:
+### **Perform DAPC Analysis**:
 
 *Option 1*: Use the find.cluster function in adegenet to determine the optimal number of clusters and then run DAPC.
 
@@ -259,7 +259,7 @@ dp <- dapc(gi, var.contrib = TRUE,
            pop = r, perc.pca = 80,
            scale = FALSE, n.da = 1)
 ```
-## **Analyze Results**
+### **Analyze Results**
 - **Prior Assignment Success**: Evaluate how well the pre-defined groups were assigned.
 For that you can use `summary(dp)` function to evaluate the success of your assignment per populations probabilities. An example of our assignment probabilities:
 ```r
