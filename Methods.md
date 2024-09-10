@@ -249,7 +249,8 @@ grep -v "contig" isophya.vcf > isophya71.vcf
 *Option 2*: Provide prior clustering information if available. In this analysis, individuals are assigned to two groups based on color and geographic origin:
 - Group 1: Dark individuals
 - Group 2: Pale-green individuals
-The first four subpopulations are assigned to Group 1, and the remaining to Group 2
+The first four subpopulations are assigned to Group 1, and the remaining to Group 2.
+
 Set the parameters for DAPC with `perc.pca=80` to retain 80% of the variation in principal components and `n.da=1` to include only the first discriminant axis:
 ```r
 dp <- dapc(gi, var.contrib = TRUE,
@@ -258,6 +259,26 @@ dp <- dapc(gi, var.contrib = TRUE,
 ```
 - Analyze Results:
 *Prior Assignment Success*: Evaluate how well the pre-defined groups were assigned.
+For that you can use `summary(dp)` function to evaluate the success of your assignment per populations probabilities. An example of our assignment probabilities:
+```r
+> summary(dp)
+$assign.prop
+[1] 0.971831
+
+$assign.per.pop
+        1         2 
+0.9259259 1.0000000 
+
+$prior.grp.size
+
+ 1  2 
+27 44 
+
+$post.grp.size
+
+ 1  2 
+25 46
+```
 *Visualization*: Use the [R script](scripts_folder/DAPC.R) to generate visualizations such as density plots, compoplots, and scatter plots. Run the script using the following shell command with this [script](scripts_folder/DAPC.sh):
 ```bash
 sbatch DAPC.sh
