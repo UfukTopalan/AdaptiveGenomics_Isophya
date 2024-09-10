@@ -245,6 +245,7 @@ grep -v "contig" isophya.vcf > isophya71.vcf
 - Perform DAPC Analysis:
 
 *Option 1*: Use the find.cluster function in adegenet to determine the optimal number of clusters and then run DAPC.
+
 *Option 2*: Provide prior clustering information if available. In this analysis, individuals are assigned to two groups based on color and geographic origin:
 - Group 1: Dark individuals
 - Group 2: Pale-green individuals
