@@ -17,7 +17,7 @@ library(adegenet)
 
 library(ade4)
 
-gll=vcfR2genlight(read.vcfR("isophya71_final.vcf"))
+gll=vcfR2genlight(read.vcfR("isophya71.vcf"))
 
 #look at genlight object
 
