@@ -205,7 +205,8 @@ sbatch get_admix.sh isophya71 5
 
 By executing this analysis, you will generate output files for each K value, which can then be examined to determine the best-fitting model for your data. 
 
-- *Determine the Best K Value* : After running the analysis, you’ll have output files for each K value. To identify the most suitable K, extract the likelihood values from each run and prepare a file for [Clumpak](https://clumpak.tau.ac.il/bestK.html), which will use Evanno's method ([Evanno et al. 2005](https://onlinelibrary.wiley.com/doi/10.1111/j.1365-294X.2005.02553.x)) to determine the optimal K. 
+- #### Determine the Best K Value
+  After running the analysis, you’ll have output files for each K value. To identify the most suitable K, extract the likelihood values from each run and prepare a file for [Clumpak](https://clumpak.tau.ac.il/bestK.html), which will use Evanno's method ([Evanno et al. 2005](https://onlinelibrary.wiley.com/doi/10.1111/j.1365-294X.2005.02553.x)) to determine the optimal K. 
 
 ```bash
 cd results_admix
@@ -215,7 +216,8 @@ paste noK logfile > admix_runs_LH.txt
 ```
 Import the formatted logfile into [Clumpak](https://clumpak.tau.ac.il/bestK.html) to find the most likely K value for your subpopulations.
 
-- *Visualize Admixture Results*: To visualize the results for the best K, create a bar plot using the R script [here](scripts_folder/plot_Admixutre.R). Import the `.qopt` file from the run with the optimal K (in this case, K=2) and an `info file` to label the populations in the plot.
+- #### Visualize Admixture Results
+  To visualize the results for the best K, create a bar plot using the R script [here](scripts_folder/plot_Admixutre.R). Import the `.qopt` file from the run with the optimal K (in this case, K=2) and an `info file` to label the populations in the plot.
 Create the info file using:
 ```bash
 cut -c3-5 isophya71.list | paste - isophya71.list > isophya71.info
