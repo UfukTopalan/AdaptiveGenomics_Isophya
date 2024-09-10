@@ -12,7 +12,7 @@ First, we need to create list files for both individuals and populations. You ca
 
 ```bash
 # Create a list of individuals
-ls *.fastq.gz | cut -d'_' -f1-2 > isphya.list
+ls *.fastq.gz | cut -d'_' -f1-2 > isophya.list
 
 # Extract unique population identifiers from the list
 cut -c3-5 isphya.list | uniq > pop11_list
@@ -114,22 +114,23 @@ We now have a `nonparalog_sites` file.
 At this point, we have filtered out paralog sites, but the process isn't finished. We still need to perform further filtering on the data.
 
 ### Filtering Only High Coverage Sites
-Now, for obtaining and continue only with high coverage sites which this time we'll use 6x coverage, we can use the same pop11_list and create a mafs file for each of the populations as above but this time with this [script](scripts_folder/high_coverage.sh).
+To focus on high coverage sites, specifically those with 6x coverage, we will use the same pop11_list and create a `.mafs` file for each population using the [script](scripts_folder/high_coverage.sh).
 
 To run the script:
 ```bash
 sbatch high_coverage.sh pop11_list
 ```
 
-Now we're doing the same work as above, extracting the sites from mafs file, and than running the loop (don't forget to update it for a different output) for obtaining the sites that are present across all populations. Then we must do one more step, we will continue with the sites that appear on both 6x coverage sites file and non_paralogs sites files. 
+After creating `.mafs` files for each population, we will extract the sites and run a loop (remember to update the output file name accordingly) to obtain sites present across all populations. Next, we need to filter for sites that appear in both the 6x coverage sites file and the non-paralogs sites file.
 
-For that, let's crerate our final sites file then also index it for genotyping.
+To create our final sites file and index it for genotyping, use the following command:
 
 ```bash
 awk 'NR==FNR{a[$0];next} $0 in a' 6x_coverage_sites nonparalog_sites > 6cov_nonparalog.sites
+angsd sites index 6cov_nonparalog.sites
 ```
 
-Now for genotyping and variant calling proccess, we have everything that we need.
+With this final 6cov_nonparalog.sites file, we are now ready to proceed with the genotyping and variant calling processes.
 
 ## Genotyping and Variant Calling
 Now, variant calling and genotyping are performed using ANGSD, a toolkit designed for analyzing next-generation sequencing data. The process involves identifying genetic variants such as single nucleotide polymorphisms (SNPs) and determining the genotype of individuals at each site across the genome.
@@ -147,7 +148,7 @@ To run this code:
 ```bash
 sbatch genotype.sh isophya71.bamlist ~/references/isophya_contigs_CAYMY.fasta
 ```
-We created the beagle file, mafs file, bcf file, geno file and tped file which we'll use all this file in our analysis.
+We created the beagle file, mafs file, bcf file, geno file and tped file which we'll use all this files for our analysis.
 
 ## Population structure (PCA)
 
@@ -186,6 +187,44 @@ Running the R script for PCA plot:
 ```bash
 Rscript plot.PCA.R -i isophya71.cov -c1-2 -a isophya71.clst -o isophya71_pca.pdf
 ```
+
+
+## Admixture
+Admixture analysis is crucial for understanding the genetic structure and evolutionary history of populations. It allows us to infer the proportion of genetic ancestry from different ancestral populations within each individual or population. This type of analysis helps in identifying the number of distinct genetic clusters (K) that best represent the underlying genetic variation in the dataset. By determining the optimal number of clusters, we can better understand the genetic relationships and historical migrations between populations.
+
+To perform admixture analysis, we use `NGSadmix` with genotype likelihood files to determine the optimal number of genetic clusters (K) within the dataset. In this analysis, we will explore different values for K ranging from 2 to 5 and run the analysis for each K value with 10 replicates.
+We will use the previously generated genotype likelihood file, `isophya71.beagle.gz`, as input for NGSadmix. The process involves looping over each K value and running 10 replicates to ensure robustness and accuracy in our results.
+
+You can use this [script](scripts_folder/get_admix.sh) for admixture analysis.
+In the script `-K` specifies the number of clusters to test (from 2 to 5).
+
+To run the script:
+```bash
+sbatch get_admix.sh isophya71 5
+```
+
+By executing this analysis, you will generate output files for each K value, which can then be examined to determine the best-fitting model for your data. 
+
+- *Determine the Best K Value* : After running the analysis, you’ll have output files for each K value. To identify the most suitable K, extract the likelihood values from each run and prepare a file for [Clumpak](https://clumpak.tau.ac.il/bestK.html), which will use Evanno's method ([Evanno et al. 2005](https://onlinelibrary.wiley.com/doi/10.1111/j.1365-294X.2005.02553.x)) to determine the optimal K. 
+
+```bash
+cd results_admix
+(for log in `ls *.log`; do grep -Po 'like=\K[^ ]+' $log; done) > logfile
+(for log in `ls *.log`; do grep -Po 'nPop=\K[^ ]' $log; done) > noK
+paste noK logfile > admix_runs_LH.txt
+```
+Import the formatted logfile into [Clumpak](https://clumpak.tau.ac.il/bestK.html) to find the most likely K value for your subpopulations.
+
+- *Visualize Admixture Results*: To visualize the results for the best K, create a bar plot using the R script [here](scripts_folder/plot_Admixutre.R). Import the `.qopt` file from the run with the optimal K (in this case, K=2) and an `info file` to label the populations in the plot.
+Create the info file using:
+```bash
+cut -c3-5 isophya71.list | paste - isophya71.list > isophya71.info
+```
+Plot the results with:
+```bash
+Rscript plot_Admixture.R isophya71_admix2_run1.qopt isophya71.info
+```
+
 
 
 
