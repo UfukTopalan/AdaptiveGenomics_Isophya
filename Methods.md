@@ -8,7 +8,7 @@ We sought to elucidate the genetic diversity and adaptive responses of I. rizeen
 
 ## Data Manipulation 
 
-First of all, we need to create our list files for individuals and populations. You can use the following commands:
+First, we need to create list files for both individuals and populations. You can use the following commands:
 
 ```bash
 # Create a list of individuals
@@ -32,16 +32,19 @@ Before running the alignment script, we must index our reference genome.
 ~/bin/bwa/bwa index -a bwtsw ~/isophya/references/isophya_contigs_CAYMY.fasta
 ```
 
-We can use this [script](scripts_folder/alignment.sh) for aligning sequencing reads to a reference genome using BWA and processing the resulting BAM files using Samtools and Picard.
-To run the script, we can use the code below.
+We use this [script](scripts_folder/alignment.sh) for aligning sequencing reads to a reference genome using BWA and processing the resulting BAM files with Samtools and Picard. To run the script, use the following command:
 
 ```bash
 sbatch align_pe_reads.sh ~/isophya/raw/isphya.list ~/isophya/references/isophya_contigs_CAYMY.fasta
 ```
-Now that we have 71 BAM files at low/medium depth we can create a bamlist for the data set as a whole and for each population to use in downstream analysis.
+Now that we have 71 BAM files at low/medium depth, we can create a BAM list for the dataset as a whole, and also for each subpopulation to use in downstream analysis.
 
-For understanding the samtools flags, we can take reference in their site [Samtools Format](https://www.samformat.info/sam-format-flag#google_vignette) ; let's check one of the file with samtools flagstat command:
+```bash
+ls ~/isophya/*_sorted_mdup.bam > isophya71.bamlist
+for i in cat pop11_list; do grep $i isophya71.bamlist > ${i}.bamlist; done
+```
 
+For understanding the samtools flags, you can refer to their official documentation at [Samtools Format](https://www.samformat.info/sam-format-flag#google_vignette) ; Let’s check one of the files using the `samtools flagstat` command:
 ```bash
 samtools flagstat CKLYU_010_sorted_mdup.bam
 24236 + 0 in total (QC-passed reads + QC-failed reads)
@@ -57,39 +60,31 @@ samtools flagstat CKLYU_010_sorted_mdup.bam
 826 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
 
-Now for all of our bamfiles, let's check their stats with a simple script [here](scripts_folder/count_no_align.sh).
-To run the code:
+Now, to check the stats for all BAM files, you can use a simple script available [here](scripts_folder/count_no_align.sh).
+Run the script with the following command:
 ```bash
 sbatch count_no_align.sh
 ```
-With the output, we can check the mapped reads from the third column and filter our individuals or bad reads.
+With the output, you can review the mapped reads in the third column and filter out any individuals or reads with low quality.
 
-Before we continue, since we have the bam files for all individuals, we can create a bamlist for both all individuals and both for each of our subpopulations for our future analysis:
-
-```bash
-ls ~/isophya/*_sorted_mdup.bam > isophya71.bamlist
-for i in cat pop11_list; do grep $i isophya71.bamlist > ${i}.bamlist; done
-```
 
 ## Eliminating Paralogs
 
-After individual eliminating, we can do a filtering for paralog sites, but before, we must create a position file which will be contains the positions for our all populations. We can do that by genotyping all subpopulations and creating a mafs file, then extracting the positions from it.
+After individual elimination, we can perform filtering for paralog sites. Before doing so, we need to create a position file that contains the positions for all populations. This can be achieved by genotyping all subpopulations and creating a `.mafs` file, then extracting the positions from it.
 
-For genotyping all groups you can use this [script](scripts_folder/genotyping_groups.sh) You must give the population list file, which contains all subpopulations and create a bamlist file for each subpopulations with the extension with `.bamlist`. Also we need to give a reference fasta file.
+To genotype all groups, you can use the following [script](scripts_folder/genotyping_groups.sh) You'll need to provide a population list file, which contains all subpopulations, and create a `.bamlist` file for each subpopulation. You will also need to provide a reference FASTA file.
 
-You can run the script with:
+To run the script:
 
 ```bash
 sbatch genotyping_groups.sh pop11_list ~/references/isophya_contigs_CAYMY.fasta
 ```
-After creating mafs files for each subpopulation, we can extract the positions and create a pos file with the code below:
+After creating `.mafs` files for each subpopulation, extract the positions and create a `.pos` file with the following code:
 
 ```bash
 zless CANCK.mafs.gz | cut -f1-2 | sed 1d > CANCK.pos
 ```
-Now let's do a filtering to paralog sites with the script [here](scripts_folder/get_paralog.sh).
-
-Remember that this code is just an example and you need to organize it for you, I have perform it for all subpopulations seperatly.
+Next, we can filter the paralog sites using the script [here](scripts_folder/get_paralog.sh). Note that the code provided is an example, and you'll need to organize it for your use case. In this example, I have performed it separately for each subpopulation.
 
 To run the script:
 ```bash
@@ -97,26 +92,26 @@ To run the script:
 sbatch get_paralog.sh pop11_list
 ```
 
-So, with that, we obtain a file with `.paralogs` extension, by conducting a bonferroni correction (0.05 confidence level) to our SNP number, we can compute a chi square value from [here](http://courses.atlas.illinois.edu/spring2016/STAT/STAT200/pchisq.html) and set the treshold based on that (df =1). Then, we can eliminate the paralogs by higher then this value. 
+This process will generate a file with a .paralogs extension. By conducting a Bonferroni correction (0.05 confidence level) on our SNP number, we can compute a chi-square value using [this website](http://courses.atlas.illinois.edu/spring2016/STAT/STAT200/pchisq.html) and set the threshold based on that (df = 1). Paralogs are eliminated if their values are higher than this threshold. 
 
-For example for CANCK subpopulation:
+For example for the CANCK subpopulation:
 ```bash
 less CANCK.paralogs | awk '$5>35.51  {print $1, $2}'> CANCK_paralog.list
 awk 'NR==FNR{a[$1,$2]; next} !(($1,$2) in a)' CANCK_paralog.list CANCK.pos > CANCK_sites
 ```
-Now that we have created a sites file for each population, excluding any paralog sites, we can proceed to create a new sites file. In this new file, we will extract the sites that are present across all populations. An example for that code:
+Now that we have created a sites file for each population, excluding any paralog sites, we can proceed to create a new sites file. In this new file, we will extract the sites present across all populations. Below is an example of how to do this:
 ```bash
 awk 'NR==FNR{a[$0];next} $0 in a' CANCK_sites PLVYL_sites > CANCK_PLVYL.sites
 ```
-We must do it for all groups, so we can just write a simple [loop](scripts_folder/extract_common_sites.sh):
+To extract the sites across all groups, use a simple [loop](scripts_folder/extract_common_sites.sh):
 
 To run the loop:
 ```bash
 sbatch extract_common_sites.sh
 ```
 
-We have now `nonparalog_sites` file.
-Now, we have the sites that doesn't contain any paralog, but our job doesn't finish, we must do another filtering for our data.
+We now have a `nonparalog_sites` file.
+At this point, we have filtered out paralog sites, but the process isn't finished. We still need to perform further filtering on the data.
 
 ### Filtering Only High Coverage Sites
 Now, for obtaining and continue only with high coverage sites which this time we'll use 6x coverage, we can use the same pop11_list and create a mafs file for each of the populations as above but this time with this [script](scripts_folder/high_coverage.sh).
