@@ -227,6 +227,39 @@ Plot the results with:
 Rscript plot_Admixture.R isophya71_admix2_run1.qopt isophya71.info
 ```
 
+## Discriminant Analysis of Principal Components (DAPC)
 
+Discriminant Analysis of Principal Components (DAPC) is employed to identify and visualize the genetic structure of populations by maximizing the separation between pre-defined groups while retaining as much genetic variation as possible. This analysis helps in assessing how well individuals from different populations can be distinguished based on their genetic data.
 
+### Steps for DAPC Analysis
 
+- Convert BCF to VCF Format: First, convert the binary VCF file (.bcf) obtained from genotyping to a standard VCF file (.vcf) using the following command:
+```bash
+module load bcftools
+bcftools view isophya71.bcf > isophya.vcf
+```
+- Remove Unwanted Lines: Since the converted VCF file may contain extraneous "contigs" information, clean the VCF file by removing these lines:
+```bash
+grep -v "contig" isophya.vcf > isophya71.vcf
+```
+- Perform DAPC Analysis:
+
+*Option 1*: Use the find.cluster function in adegenet to determine the optimal number of clusters and then run DAPC.
+*Option 2*: Provide prior clustering information if available. In this analysis, individuals are assigned to two groups based on color and geographic origin:
+- Group 1: Dark individuals
+- Group 2: Pale-green individuals
+The first four subpopulations are assigned to Group 1, and the remaining to Group 2
+Set the parameters for DAPC with `perc.pca=80` to retain 80% of the variation in principal components and `n.da=1` to include only the first discriminant axis:
+```r
+dp <- dapc(gi, var.contrib = TRUE,
+           pop = r, perc.pca = 80,
+           scale = FALSE, n.da = 1)
+```
+- Analyze Results:
+*Prior Assignment Success*: Evaluate how well the pre-defined groups were assigned.
+*Visualization*: Use the [R script](scripts_folder/DAPC.R) to generate visualizations such as density plots, compoplots, and scatter plots. Run the script using the following shell command with this [script](scripts_folder/DAPC.sh):
+```bash
+sbatch DAPC.sh
+```
+- Outliers Detection: Identify outliers and SNPs with the most significant contributions to discrimination using the snpzip function with the "average" method. Check the `loadings_average.txt` file and `Rplot.pdf` for details on thresholds and outlier SNPs.
+The output files from this analysis will help in understanding the genetic differentiation between groups and provide visual and statistical evidence of population structure.
