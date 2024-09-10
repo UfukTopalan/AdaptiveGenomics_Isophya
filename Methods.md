@@ -75,12 +75,12 @@ for i in cat pop11_list; do grep $i isophya71.bamlist > ${i}.bamlist; done
 
 After individual eliminating, we can do a filtering for paralog sites, but before, we must create a position file which will be contains the positions for our all populations. We can do that by genotyping all subpopulations and creating a mafs file, then extracting the positions from it.
 
-For genotyping all groups you can use this [script](scripts_folder/genotyping_groups.sh) You must give the population list file, which contains all subpopulations and create a bamlist file for each subpopulations with the extension with `.bamlist`
+For genotyping all groups you can use this [script](scripts_folder/genotyping_groups.sh) You must give the population list file, which contains all subpopulations and create a bamlist file for each subpopulations with the extension with `.bamlist`. Also we need to give a reference fasta file.
 
 You can run the script with:
 
 ```bash
-sbatch genotyping_groups.sh pop11_list
+sbatch genotyping_groups.sh pop11_list ~/references/isophya_contigs_CAYMY.fasta
 ```
 After creating mafs files for each subpopulation, we can extract the positions and create a pos file with the code below:
 
@@ -137,4 +137,60 @@ awk 'NR==FNR{a[$0];next} $0 in a' 6x_coverage_sites nonparalog_sites > 6cov_nonp
 Now for genotyping and variant calling proccess, we have everything that we need.
 
 ## Genotyping and Variant Calling
+Now, variant calling and genotyping are performed using ANGSD, a toolkit designed for analyzing next-generation sequencing data. The process involves identifying genetic variants such as single nucleotide polymorphisms (SNPs) and determining the genotype of individuals at each site across the genome.
+
+ANGSD allows for flexible analysis by calculating genotype likelihoods rather than directly calling genotypes, which is ideal for working with low to medium-depth sequencing data. This method accounts for uncertainty in base calling and sequence quality, providing more robust results when sequencing coverage is limited. The toolkit also calculates allele frequencies across populations, helping to identify polymorphic sites.
+
+Several output formats, such as Beagle, VCF, and PLINK, are supported to enable further analysis using a variety of downstream tools. This flexibility allows for comprehensive population genetics analyses, ensuring accurate and reliable detection of genetic variants within the dataset.
+
+We'll use several filtering options for obtaining only high quality data. To understand and apply the filtering options for your data, you can check [angsd filter section](https://www.popgen.dk/angsd/index.php/Filters).
+
+Now, for calling genotypes on our bamfiles, we must give a bamlist which we've created earlier. Also again, we need to specify the references sequence too. 
+The options used for variant calling in ANGSD include `-GL 1` for genotype likelihoods using the SAMtools model, `-doMajorMinor 1` for inferring the major and minor alleles, `-doMaf 1` to calculate minor allele frequencies, `-doGlf 2` for outputting genotype likelihoods in Beagle format, `-doGeno 5` for generating genotype probabilities, `-doBcf 1` to create a BCF file, `-doPost 1` for posterior probability calculations with a cutoff of `-postCutoff 0.95`, filtering by mapping quality (`-minMapQ 10`), base quality (`-minQ 20`), a minimum number of individuals (`-minInd $mInd`), SNP p-value threshold (`-SNP_pval 1e-12`), minor allele frequency (`-minMaf 0.05`), and limiting the analysis to sites from the file `group_coverage/6cov_nonparalog.sites` which we obtain earlier by removing the paralogs and including only has 6x coverage sites.
+We can use this [script](scripts_folder/genotype.sh) to obtain all the files above.
+To run this code:
+```bash
+sbatch genotype.sh isophya71.bamlist ~/references/isophya_contigs_CAYMY.fasta
+```
+We created the beagle file, mafs file, bcf file, geno file and tped file which we'll use all this file in our analysis.
+
+## Population structure (PCA)
+
+To conduct Principal Component Analysis (PCA) with `pcangsd`, we work directly with genotype likelihoods in Beagle format, without calling genotypes. This approach accounts for genotype uncertainty, making it especially suitable for low-depth sequencing data. The command specifies a Beagle file (`${pop}.beagle.gz`) as input and saves the PCA results in the `results_pca` directory. `pcangsd` efficiently computes covariance matrices based on genotype likelihoods and outputs principal components, which can be used to explore genetic structure among populations.
+We can use this [script](scripts_folder/get_PCA.sh).
+To run it
+```bash
+sbatch get_PCA.sh isophya71
+```
+Running the `get_PCA.sh` script generates an output file called `isophya71.cov`, which contains the covariance matrix. This matrix will be used for eigendecomposition to identify and visualize the main axes of genetic variation. The first two principal components (PC axes) can be plotted using an R script [here](scripts_folder/plotPCA.R), and a simple cluster file can be created to label populations with distinct shapes and for dark and pale population using two colors for clear visualization in the plot.
+
+Our `isophya.firtina.valley.tsv` file contains information about individuals' colors, altitudes, body size, and temperature seasonality. We can use this file to create a simple `.clst` file for labeling populations.
+
+**Example of the TSV file:**
+
+| Indv       | Color | Alt   | Bsize | TS   |
+|------------|-------|-------|-------|------|
+| CANCK_007  | Pale  | 1200  | 0.66  | 77.8 |
+| CANCK_00D  | Pale  | 1200  | 0.66  | 77.8 |
+| CANCK_010  | Pale  | 1200  | 0.66  | 77.8 |
+| CANCK_011  | Pale  | 1200  | 0.66  | 77.8 |
+
+**Creating the `.clst` file:**
+
+```bash
+cut -f1 isophya.firtina.valley.tsv | sed 1d | sed 1iFID > FID
+cut -f1 isophya.firtina.valley.tsv | sed 1d | cut -c1-5 | sed 1iIID > IID
+less isophya/isophya.firtina.valley.tsv | grep -f taken.list | sort -nk3 | cut -f2 > CLUSTER  # Include only selected individuals
+paste -d' ' FID IID CLUSTER > isophya71.clst
+
+# To simplify the plot, we can replace IID with numbers for subpopulation labeling:
+sed -i 's/ IST06/ 1/g' isophya.firtina71.clst
+...
+```
+Running the R script for PCA plot:
+```bash
+Rscript plot.PCA.R -i isophya71.cov -c1-2 -a isophya71.clst -o isophya71_pca.pdf
+```
+
+
 
