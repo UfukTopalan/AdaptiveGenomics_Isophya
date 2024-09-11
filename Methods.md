@@ -346,7 +346,7 @@ sbatch get_2dsfs.sh pop11_list
 ```
 
 ### Fst Calculation
-After calculating the 2D-SFS per site, we will estimate pairwise Fst values. ANGSD provides the `-fstout` option to output an fst.idx file. This file contains Fst information where Fst is defined as:
+After calculating the 2D-SFS per site, we will estimate pairwise Fst values. ANGSD provides the `-fstout` option to output an `fst.idx` file. This file contains Fst information where Fst is defined as:
 
 - **Fst = a / (a + b)**
 For multiple SNPs, the formula becomes **sum(a) / sum(a + b)**.
