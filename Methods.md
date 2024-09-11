@@ -386,7 +386,7 @@ Rscript plot_fst.R --file all_pops_fst.tsv --title "Isophya rizeensis Pairwise F
 In our study, we analyze IBD patterns using Fst values, which quantify genetic differentiation between populations. To assess IBD, we first need to linearize the Fst values using the formula:
 
 $$
-[ \text{Linearized Fst} = \frac{\text{Fst}}{1 - \text{Fst}} ]
+[\text{Linearized Fst} = \frac{\text{Fst}}{1 - \text{Fst}}] 
 $$
 
 
