@@ -479,7 +479,7 @@ The Score Statistic is based on the score test, which is a likelihood ratio test
    ```
 This time, in the seventh column of the output file, we will find the LRT values. We will perform a Bonferroni correction again to identify significant SNP regions associated with altitudinal changes.
 ## Pcadapt and Selection
-To identify putatively adaptive regions or regions under selection, we use pcangsd with two specific options:
+To identify putatively adaptive regions or regions under selection, we use `pcangsd` with two specific options:
 
 1. **-selection**
 This option employs an extended model of [FastPCA](http://www.cell.com/ajhg/abstract/S0002-9297(16)00003-3) to perform a genome-wide selection scan along all significant principal components (PCs). The selection statistics output by this option must be converted to p-values by the user. Each column in the output reflects the selection statistics along a tested PC and these statistics are χ²-distributed with 1 degree of freedom. This approach helps in identifying regions potentially under selection based on the variation observed in the principal components.
