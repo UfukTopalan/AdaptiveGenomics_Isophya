@@ -247,10 +247,12 @@ Import the formatted logfile into [Clumpak](https://clumpak.tau.ac.il/bestK.html
 
 - #### Visualize Admixture Results
   To visualize the results for the best K, create a bar plot using the R script [here](scripts_folder/plot_Admixutre.R). Import the `.qopt` file from the run with the optimal K (in this case, K=2) and an `info file` to label the populations in the plot.
+
 Create the info file using:
 ```bash
 cut -c3-5 isophya71.list | paste - isophya71.list > isophya71.info
 ```
+
 Plot the results with:
 ```bash
 Rscript plot_Admixture.R isophya71_admix2_run1.qopt isophya71.info
@@ -330,8 +332,8 @@ The Site Frequency Spectrum (SFS) is a summary statistic used to describe the di
 For this analysis, we are using the **unfolded** SFS, and the reference genome will serve as the ancestral state.
 ### Using ANGSD for SFS Analysis
 To perform the SFS analysis, we will use ANGSD (Analysis of Next Generation Sequencing Data). ANGSD allows us to calculate genotype likelihoods and the Sample Allele Frequency (SAF) files, which are used to estimate the [SFS](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037558).
-**Calculate Genotype Likelihoods**: We will calculate genotype likelihoods for each population using `ANGSD`. These likelihoods are used to compute SAF files with `-doSaf` option.
-**Estimate SFS Using realSFS**: Once the SAF files are generated, we use `realSFS` to estimate the unfolded SFS.
+- **Calculate Genotype Likelihoods**: We will calculate genotype likelihoods for each population using `ANGSD`. These likelihoods are used to compute SAF files with `-doSaf` option.
+- **Estimate SFS Using realSFS**: Once the SAF files are generated, we use `realSFS` to estimate the unfolded SFS.
 This step will be repeated for each population. We will use bamlist files for each population and compute their respective SAF and SFS.
 
 We can generate this saf and sfs files for each populations in parallel with this [script](scripts_folder/get_sfs.sh)
@@ -342,6 +344,7 @@ sbatch get_sfs.sh pop11_list ~/isophya/references/isophya_contigs_CAYMY.fasta
 ```
 
 This will generate also barplots for each of the populations that summarise the sfs. If it didn't run, you can run this [R script](scripts_folder/plotSFS.R) to obtain the plot of the SFS.
+
 To run the R script:
 ```bash
 Rscript plotSFS.R results_sfs/CANCK.sfs CANCK 0 results_sfs/CANCK.sfs.pdf
@@ -357,6 +360,7 @@ In `ANGSD`, Fst values can be calculated without relying on genotype calls, by d
 ### Estimating 2D-SFS
 To estimate the **2D-SFS**, we will use the `realSFS` program implemented in angsd. This will provide the joint site frequency spectrum between pairs of populations, serving as the basis for Fst calculation.
 You can use this [script](scripts_folder/get_2dsfs.sh) to calculate the 2D-SFS.
+
 To run the script:
 ```bash
 sbatch get_2dsfs.sh pop11_list
@@ -379,6 +383,7 @@ cd results_fst
 ls *.fst | cut -d'_' -f1 | tr '.' '\t' | sed 1i'Pop1\tPop2' > pops
 paste pops fstfile > all_pops_fst.tsv
 ```
+
 You can then use the [Rscript](scripts_folder/plotfst.R) to plot a heatmap:
 ```bash
 Rscript plot_fst.R --file all_pops_fst.tsv --title "Isophya rizeensis Pairwise Fst comparison" --output "custom_fst_plot.png"
