@@ -289,3 +289,71 @@ sbatch DAPC.sh
 ```
 - **Outliers Detection**: Identify outliers and SNPs with the most significant contributions to discrimination using the [snpzip](https://rdrr.io/cran/adegenet/man/snpzip.html) function with the "average" method. Check the `loadings_average.txt` file and `Rplot.pdf` for details on thresholds and outlier SNPs. Also you can use other methods for setting the treshold by using different hierarchical clustering methods such as "ward", "centroid" or "median".
 The output files from this analysis will help in understanding the genetic differentiation between groups and provide visual and statistical evidence of population structure.
+
+## The Site Frequency Spectrum (SFS)
+The Site Frequency Spectrum (SFS) is a summary statistic used to describe the distribution of allele frequencies within a population. It shows how many sites have a particular frequency of the derived allele and helps in understanding genetic diversity and population structure.
+### Importance of SFS
+- The SFS serves as a key summary statistic in population genetics.
+- It provides insights into recent population history, such as bottlenecks and selection.
+- With the SFS, we can calculate genetic diversity measures such as Theta Pi and Watterson’s Pi.
+- It is used to estimate Fst after calculating the 2D SFS as a prior.
+****Folded vs. Unfolded SFS****
+- Folded SFS: This treats ancestral and derived alleles symmetrically. It is used when the ancestral state is unknown.
+- Unfolded SFS: Uses ancestral state information to distinguish between ancestral and derived alleles. This provides a more detailed frequency spectrum.
+For this analysis, we are using the **unfolded** SFS, and the reference genome will serve as the ancestral state.
+### Using ANGSD for SFS Analysis
+To perform the SFS analysis, we will use ANGSD (Analysis of Next Generation Sequencing Data). ANGSD allows us to calculate genotype likelihoods and the Sample Allele Frequency (SAF) files, which are used to estimate the [SFS](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0037558).
+**Calculate Genotype Likelihoods**: We will calculate genotype likelihoods for each population using `ANGSD`. These likelihoods are used to compute SAF files with `-doSaf` option.
+**Estimate SFS Using realSFS**: Once the SAF files are generated, we use `realSFS` to estimate the unfolded SFS.
+This step will be repeated for each population. We will use bamlist files for each population and compute their respective SAF and SFS.
+
+We can generate this saf and sfs files for each populations in parallel with this [script](scripts_folder/get_sfs.sh)
+
+To run the script:
+```bash
+sbatch get_sfs.sh pop11_list ~/isophya/references/isophya_contigs_CAYMY.fasta
+```
+
+This will generate also barplots for each of the populations that summarise the sfs. If it didn't run, you can run this [R script](scripts_folder/plotSFS.R) to obtain the plot of the SFS.
+To run the R script:
+```bash
+Rscript plotSFS.R results_sfs/CANCK.sfs CANCK 0 results_sfs/CANCK.sfs.pdf
+```
+
+## Genetic Differentiation - Pairwise Fst
+Fst (Fixation Index) is a measure of population differentiation due to genetic structure. It quantifies the genetic variance between populations relative to the total genetic variance. *Pairwise Fst* values are used to assess genetic differentiation between two populations.
+- **Fst Range**: The values of Fst range from 0 to 1.
+  - **Fst = 0** indicates no genetic differentiation between populations.
+  - **Fst = 1** indicates complete genetic differentiation.
+  Fst is widely used in population genetics to study the degree of divergence between populations. Higher Fst values suggest greater genetic differentiation.
+In `ANGSD`, Fst values can be calculated without relying on genotype calls, by directly using the sample allele frequency likelihoods (**SAF files**) calculated previously. To estimate pairwise Fst values between populations, we need to first estimate the **joint SFS** (2D-SFS) between any two populations. The **2D-SFS** serves as prior information for estimating Fst values.
+### Estimating 2D-SFS
+To estimate the **2D-SFS**, we will use the `realSFS` program implemented in angsd. This will provide the joint site frequency spectrum between pairs of populations, serving as the basis for Fst calculation.
+You can use this [script](scripts_folder/get_2dsfs.sh) to calculate the 2D-SFS.
+To run the script:
+```bash
+sbatch get_2dsfs.sh pop11_list
+```
+
+### Fst Calculation
+After calculating the 2D-SFS per site, we will estimate pairwise Fst values. ANGSD provides the `-fstout` option to output an fst.idx file. This file contains Fst information where Fst is defined as:
+
+- **Fst = a / (a + b)**
+For multiple SNPs, the formula becomes **sum(a) / sum(a + b)**.
+Use this [script](scripts_folder/get_fst.sh) to calculate global pairwise Fst between all populations:
+```bash
+sbatch get_fst.sh pop11_list
+```
+### Visualizing Fst Results
+To visualize the Fst results, we can create a heatmap illustrating pairwise genetic differentiation between populations. First, let’s create a table summarizing the global Fst values between each population.
+```bash
+cd results_fst
+(for fst in `ls *.fst`; do grep -Po 'Fst.Weight:\K[^ ]+' $fst; done) | sed 1iFst > fstfile
+ls *.fst | cut -d'_' -f1 | tr '.' '\t' | sed 1i'Pop1\tPop2' > pops
+paste pops fstfile > all_pops_fst.tsv
+```
+You can then use the [Rscript](scripts_folder/plotfst.R) to plot a heatmap:
+```bash
+Rscript plot_fst.R --file all_pops_fst.tsv --title "Isophya rizeensis Pairwise Fst comparison" --output "custom_fst_plot.png"
+```
+
