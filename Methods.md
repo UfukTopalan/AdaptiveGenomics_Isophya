@@ -478,5 +478,11 @@ The Score Statistic is based on the score test, which is a likelihood ratio test
    sbatch assoc_score_w_cov.sh isophya71 ~/isophya/references/isophya_CAYMY.fasta
    ```
 This time, in the seventh column of the output file, we will find the LRT values. We will perform a Bonferroni correction again to identify significant SNP regions associated with altitudinal changes.
+## Pcadapt and Selection
+To identify putatively adaptive regions or regions under selection, we use pcangsd with two specific options:
 
- 
+1. **-selection**
+This option employs an extended model of [FastPCA](http://www.cell.com/ajhg/abstract/S0002-9297(16)00003-3) to perform a genome-wide selection scan along all significant principal components (PCs). The selection statistics output by this option must be converted to p-values by the user. Each column in the output reflects the selection statistics along a tested PC and these statistics are χ²-distributed with 1 degree of freedom. This approach helps in identifying regions potentially under selection based on the variation observed in the principal components.
+
+2. **-pcadapt**
+This option uses an extended model of [pcadapt](https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.12592) to perform a genome-wide selection scan across all significant PCs. It outputs z-scores, which must be converted to test statistics. The test statistics are χ²-distributed with K degrees of freedom. This method helps in identifying adaptive regions by analyzing the z-scores derived from the significant PCs. 
