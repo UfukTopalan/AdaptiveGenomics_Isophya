@@ -371,12 +371,15 @@ After calculating the 2D-SFS per site, we will estimate pairwise Fst values. ANG
 
 - **Fst = a / (a + b)**
 For multiple SNPs, the formula becomes **sum(a) / sum(a + b)**.
+
 Use this [script](scripts_folder/get_fst.sh) to calculate global pairwise Fst between all populations:
+
 ```bash
 sbatch get_fst.sh pop11_list
 ```
 ### Visualizing Fst Results
 To visualize the Fst results, we can create a heatmap illustrating pairwise genetic differentiation between populations. First, let’s create a table summarizing the global Fst values between each population.
+
 ```bash
 cd results_fst
 (for fst in `ls *.fst`; do grep -Po 'Fst.Weight:\K[^ ]+' $fst; done) | sed 1iFst > fstfile
