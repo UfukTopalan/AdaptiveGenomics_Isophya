@@ -387,6 +387,7 @@ In our study, we analyze IBD patterns using Fst values, which quantify genetic d
 
 \[ \text{Linearized Fst} = \frac{\text{Fst}}{1 - \text{Fst}} \]
 
+
 ​We will use the [Geographic Distance Matrix Generator](https://biodiversityinformatics.amnh.org/open_source/gdmg/) to generate a geographic distance matrix. This requires the coordinates (latitude and longitude) of our subpopulations. 
 After generating both the linearized Fst values and the geographic distance matrix, we will create a `dist` object for the Mantel test. The Mantel test is a statistical test used to evaluate the correlation between two distance matrices. It produces an `r-value` that ranges from -1 to 1, where:
 - An r-value of 1 indicates a perfect positive correlation between genetic and geographic distances.
