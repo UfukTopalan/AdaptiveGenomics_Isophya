@@ -419,7 +419,7 @@ We will use two techniques for association analysis implemented in ANGSD:
 
 ### Case Control Association using Allele Frequencies
 
-In ANGSD, we use the `-doAsso 1` option for case-control association analysis. This method basically test for differences in the allele frequencies and also genotype likelihood needs to be provided or estimated. For more information on other options, refer to [ANGSD Association](https://www.popgen.dk/angsd/index.php/Association) and its methodology explanation [here](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-12-231).
+n ANGSD, we use the -doAsso 1 option for case-control association analysis. This method tests for differences in allele frequencies and requires the genotype likelihoods to be provided or estimated. For more information on other options, refer to [ANGSD Association](https://www.popgen.dk/angsd/index.php/Association) and its methodology explanation [here](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-12-231).
 
 #### Steps:
 
