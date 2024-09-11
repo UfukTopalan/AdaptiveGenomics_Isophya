@@ -536,3 +536,4 @@ Now, we have both the test statistics and p-values from the PCAdapt results. You
 
 ## LFMM
 
+ 
