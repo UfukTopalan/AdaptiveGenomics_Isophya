@@ -1,10 +1,14 @@
+# Population Genetics and Evolutionary Insights of the Endemic Species, *Isophya rizeensis* Bush Cricket.
+
 <table>
   <tr>
     <td>
       <img src="results/Isophya_dark.jpg" alt="Isophya rizeensis dark individual from 450 meter" width="400">
+      <br><b>Figure 1a:</b> *Isophya rizeensis* dark individual from 450 meter.
     </td>
     <td>
       <img src="results/Isophya_green.jpg" alt="Isophya rizeensis green individual from 2100 meter" width="400">
+      <br><b>Figure 1b:</b> *Isophya rizeensis* green individual from 2100 meter.
     </td>
   </tr>
 </table>
@@ -22,9 +26,9 @@ Outline
 - [Genetic Differentiation - Pairwise Fst](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genetic-differentiation---pairwise-fst)
 ## STUDY
 
-Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that inhabits a broad altitudinal range from sea level to 2500 meters. We aimed to understand how this species adapts to varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.
+Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that exhibits notable color polymorphism across its altitudinal range. At lower altitudes, up to 1100 meters, populations consist primarily of dark-colored individuals, while at altitudes above 1100 meters, green-pale individuals dominate. This species thrives across a broad range, from sea level to 2400 meters, facing varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.  Our study aims to uncover how these populations adapt through genetic differentiation and the identification of SNPs associated with color polymorphism.
 
-To achieve this, we analyzed genome-wide polymorphisms in 71 individuals and 11 subpopulations of I. rizeensis using RAD sequencing data. Our study employed various analytical methods, including Principal Component Analysis (PCA), Admixture, and Snmf, Fst analyses, to explore genetic differentiation among populations. Additionally, Discriminant Analysis of Principal Components (DAPC) was used to identify specific genetic loci associated with altitudinal variations. Because we do not have a reference genome for this species or from any other closely related species we used a denovo set of RAD contigs discovered using the CAYMY population of I. rizeensis as both an outgroup and a reference genome for alignment. 
+To accomplish this, we analyzed genome-wide polymorphisms in 71 individuals across 11 subpopulations using RAD sequencing data. Employing methods such as Principal Component Analysis (PCA), Admixture, Snmf, and Fst analyses, we examined genetic differentiation between populations. Additionally, Discriminant Analysis of Principal Components (DAPC) helped identify specific genetic loci associated with altitudinal variation. Given the lack of a reference genome for this species or any closely related species, we used a de novo set of RAD contigs discovered in the CAYMY population of I. rizeensis as an outgroup and reference genome for alignment.
 
 We sought to elucidate the genetic diversity and adaptive responses of I. rizeensis to environmental changes. This research contributes to a deeper understanding of the evolutionary dynamics and adaptive mechanisms of species in response to altitude-related environmental factors, enriching the field of biodiversity research.
 
