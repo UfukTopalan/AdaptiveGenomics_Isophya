@@ -1,3 +1,13 @@
+<table>
+  <tr>
+    <td>
+      <img src="results/Isophya_dark.jpg" alt="Isophya rizeensis dark individual from 450 meter" width="300">
+    </td>
+    <td>
+      <img src="results/Isophya_green.jpg" alt="Isophya rizeensis green individual from 2100 meter" width="300">
+    </td>
+  </tr>
+</table>
 
 Outline
 - [Study Summary](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#study)
