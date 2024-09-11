@@ -30,7 +30,7 @@ Our research investigates the genetic mechanisms underlying adaptations in Isoph
 
 To accomplish this, we analyzed genome-wide polymorphisms in 71 individuals across 11 subpopulations using RAD sequencing data. Employing methods such as Principal Component Analysis (PCA), Admixture, Snmf, and Fst analyses, we examined genetic differentiation between populations. Additionally, Discriminant Analysis of Principal Components (DAPC) helped identify specific genetic loci associated with altitudinal variation. Given the lack of a reference genome for this species or any closely related species, we used a de novo set of RAD contigs discovered in the CAYMY population of I. rizeensis as an outgroup and reference genome for alignment.
 
-We sought to elucidate the genetic diversity and adaptive responses of I. rizeensis to environmental changes. This research contributes to a deeper understanding of the evolutionary dynamics and adaptive mechanisms of species in response to altitude-related environmental factors, enriching the field of biodiversity research.
+This research enhances our understanding of the evolutionary dynamics and adaptive mechanisms in response to altitude-related environmental factors and color polymorphism, contributing valuable insights to the field of biodiversity research.
 
 ## Data Manipulation 
 
