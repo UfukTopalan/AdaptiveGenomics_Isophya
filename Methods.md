@@ -24,6 +24,8 @@ Outline
 - [Discriminant Analysis of Principal Components](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#discriminant-analysis-of-principal-components-dapc)
 - [The Site Frequency Spectrum](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#the-site-frequency-spectrum-sfs)
 - [Genetic Differentiation - Pairwise Fst](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genetic-differentiation---pairwise-fst)
+- [Isolation By Distance](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#isolation-by-distance-ibd-patterns)
+- 
 ## STUDY
 
 Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that exhibits notable color polymorphism across its altitudinal range. At lower altitudes, up to 1100 meters, populations consist primarily of dark-colored individuals, while at altitudes above 1100 meters, green-pale individuals dominate. This species thrives across a broad range, from sea level to 2400 meters, facing varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.  Our study aims to uncover how these populations adapt through genetic differentiation and the identification of SNPs associated with color polymorphism.
@@ -397,6 +399,7 @@ After generating both the linearized Fst values and the geographic distance matr
 - An r-value of 0 suggests no correlation.
 For doing the mantel test, we're going to use the [vegan](https://cran.r-project.org/web/packages/vegan/vegan.pdf) package implemented in R.
 We will use the following [R script](scripts_folder/IBD.R) to run the analysis. This script requires the `all_pops_fst.tsv` file, which contains our Fst values that we generated earlier, and a geographic distance file (`Mantel_TestGeo.tsv`).
+
 To run the script:
 ```bash
 Rscript IBD.R --file all_pops_fst.tsv --dist Mantel_TestGeo.tsv --output ibd_plot.png
