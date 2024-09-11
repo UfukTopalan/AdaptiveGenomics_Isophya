@@ -4,7 +4,8 @@ Outline
 - [Paralog Elimination](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#eliminating-paralogs)
 - [Filtering High Coverage Sites](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#filtering-only-high-coverage-sites)
 - [Variant Calling](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genotyping-and-variant-calling)
-- 
+- [Principal Component Analysis](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#population-structure-pca)
+- [Admixture Analysis](
 ## STUDY
 
 Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that inhabits a broad altitudinal range from sea level to 2500 meters. We aimed to understand how this species adapts to varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.
