@@ -182,6 +182,7 @@ We created the beagle file, mafs file, bcf file, geno file and tped file which w
 
 To conduct Principal Component Analysis (PCA) with `pcangsd`, we work directly with genotype likelihoods in Beagle format, without calling genotypes. This approach accounts for genotype uncertainty, making it especially suitable for low-depth sequencing data. The command specifies a Beagle file (`${pop}.beagle.gz`) as input and saves the PCA results in the `results_pca` directory. `pcangsd` efficiently computes covariance matrices based on genotype likelihoods and outputs principal components, which can be used to explore genetic structure among populations.
 We can use this [script](scripts_folder/get_PCA.sh).
+
 To run it
 ```bash
 sbatch get_PCA.sh isophya71
