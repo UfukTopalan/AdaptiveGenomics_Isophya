@@ -26,7 +26,8 @@ Outline
 - [Genetic Differentiation - Pairwise Fst](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genetic-differentiation---pairwise-fst)
 - [Isolation By Distance](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#isolation-by-distance-ibd-patterns)
 - [GWAS (Genome-Wide Association Study)](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genome-wide-association-analysis)
-- [Pcadapt and Selection](
+- [Pcadapt and Selection](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#pcadapt-and-selection)
+- [LFMM]()
 ## STUDY
 
 Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that exhibits notable color polymorphism across its altitudinal range. At lower altitudes, up to 1100 meters, populations consist primarily of dark-colored individuals, while at altitudes above 1100 meters, green-pale individuals dominate. This species thrives across a broad range, from sea level to 2400 meters, facing varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.  Our study aims to uncover how these populations adapt through genetic differentiation and the identification of SNPs associated with color polymorphism.
@@ -532,3 +533,6 @@ write.table(d2, file=paste0( ".pcadapt.test.txt"), quote=F, row.names=F, col.nam
 write.table(pchisq(d2, df=1, lower.tail=F), file=paste0(".pcadapt.pval.txt"), quote=F, row.names=F, col.names=F)
 ```
 Now, we have both the test statistics and p-values from the PCAdapt results. You can apply the same threshold as used for selection statistics after Bonferroni correction to distinguish between neutral and putatively adaptive SNP regions.
+
+## LFMM
+
