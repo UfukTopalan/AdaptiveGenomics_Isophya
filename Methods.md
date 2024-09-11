@@ -26,6 +26,7 @@ Outline
 - [Genetic Differentiation - Pairwise Fst](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genetic-differentiation---pairwise-fst)
 - [Isolation By Distance](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#isolation-by-distance-ibd-patterns)
 - [GWAS (Genome-Wide Association Study)](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genome-wide-association-analysis)
+- [Pcadapt and Selection](
 ## STUDY
 
 Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that exhibits notable color polymorphism across its altitudinal range. At lower altitudes, up to 1100 meters, populations consist primarily of dark-colored individuals, while at altitudes above 1100 meters, green-pale individuals dominate. This species thrives across a broad range, from sea level to 2400 meters, facing varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.  Our study aims to uncover how these populations adapt through genetic differentiation and the identification of SNPs associated with color polymorphism.
@@ -478,6 +479,7 @@ The Score Statistic is based on the score test, which is a likelihood ratio test
    sbatch assoc_score_w_cov.sh isophya71 ~/isophya/references/isophya_CAYMY.fasta
    ```
 This time, in the seventh column of the output file, we will find the LRT values. We will perform a Bonferroni correction again to identify significant SNP regions associated with altitudinal changes.
+
 ## Pcadapt and Selection
 To identify putatively adaptive regions or regions under selection, we use `PCAngsd` with two specific options:
 
@@ -490,22 +492,43 @@ This option uses an extended model of [pcadapt](https://onlinelibrary.wiley.com/
 ### Filtering Based on Hardy-Weinberg Equilibrium 
 To ensure more reliable results, we filter our data based on Hardy-Weinberg Equilibrium (HWE). We use the `--hwe` option in pcangsd to exclude sites that deviate significantly from HWE. The `.lrt.sites` file used for this purpose contains information derived from a previous `PCAngsd` run and includes LRT values that reflect deviations from [HWE](https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13019).
 
-We can use this [script](scripts_folder/get_pcadapt_selection.sh) to scan based on pcadapt. We're going to use `.beagle` file as an input.
+We use the following [script](scripts_folder/get_pcadapt_selection.sh) to perform a selection scan based on PCAdapt, using a `.beagle` file as input.
 
 To run the script:
 ```bash
 sbatch get_pcadapt_selection.sh isophya71
 ```
-As an output of the `--selection` option, we have `isophya71.selection` file, which we must do the bonferroni correction with alpha value of 0.05 as above to find the significant SNP regions under selection. Be careful about the SNP number, because we did filtering, our SNP number is highly possible to reduced. So to understand which regions are included and which regions are not, you can check the `isophya71.sites` file. In that, each line corresponds to your SNPs in respectivly to your `sites` file. and for the regions that are excluded from analysis is represent as 0 and if it's included it's represents as 1. So, with a simple command, we can find the regions that are included to analysis.
+As output from the `--selection` option, we get the `isophya71.selection` file. We need to perform Bonferroni correction with an alpha value of 0.05, as previously explained, to identify significant SNP regions under selection.
+**Note:** Due to filtering, the number of SNPs is likely reduced. To check which regions were included or excluded, refer to the `isophya71.sites` file. In this file, each line corresponds to your SNPs in relation to the original sites. Regions that were excluded from the analysis are marked as `0`, while those included are marked as `1`. 
 
-First, obtain all regions and create a locus file from `.mafs` file:
+You can easily identify the regions that were included in the analysis with the following steps.
+
+First, obtain all regions and create a locus file from the `.mafs` file:
 ```bash
 less isophya71.mafs | cut -f1-2 | sed 1d > locus.file
 ```
 
-Then paste it to sites file and exclude all the regions that have 0 value in the first column:
+Then, merge it with the sites file and exclude all regions that have a `0` value in the first column:
 ```bash
 paste isophya71.sites locus.file | awk '$1==1' > included_sites.txt
 ```
 
-Now we know which sites are included to pcadapt and selection analysis. For `pcadapt`
+Now that we know which sites are included in the PCAdapt and selection analysis, we can proceed with converting the Z-scores to test statistics and p-values.
+
+As output from `pcadapt`, we get the `isophya71.pcadapt.zscores` file. We will convert the Z-scores to test statistics and p-values using R. Afterward, we can perform the Bonferroni correction on the test statistics to identify putatively adaptive SNP regions.
+
+**Converting Z-scores to test statistics in R:**
+```r
+library(bigutilsr)
+
+zscores <- read.table("./isophya71.pcadapt.zscores.txt", header = T)[,3]
+K <- ncol(zscores)
+zscores <- as.matrix(zscores)
+View(zscores)
+
+  d2 <- (zscores - median(zscores))^2
+
+write.table(d2, file=paste0( ".pcadapt.test.txt"), quote=F, row.names=F, col.names=F)
+write.table(pchisq(d2, df=1, lower.tail=F), file=paste0(".pcadapt.pval.txt"), quote=F, row.names=F, col.names=F)
+```
+Now, we have both the test statistics and p-values from the PCAdapt results. You can apply the same threshold as used for selection statistics after Bonferroni correction to distinguish between neutral and putatively adaptive SNP regions.
