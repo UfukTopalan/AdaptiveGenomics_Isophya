@@ -7,7 +7,8 @@ Outline
 - [Principal Component Analysis](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#population-structure-pca)
 - [Admixture Analysis](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#admixture)
 - [Discriminant Analysis of Principal Components](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#discriminant-analysis-of-principal-components-dapc)
-- [The Site Frequency Spectrum]
+- [The Site Frequency Spectrum](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#the-site-frequency-spectrum-sfs)
+- 
 ## STUDY
 
 Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that inhabits a broad altitudinal range from sea level to 2500 meters. We aimed to understand how this species adapts to varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.
