@@ -4,11 +4,11 @@
   <tr>
     <td>
       <img src="results/Isophya_dark.jpg" alt="Isophya rizeensis dark individual from 450 meter" width="400">
-      <br><b>Figure 1a:</b> *Isophya rizeensis* dark individual from 450 meter.
+      <br><b>Figure 1a:</b> Dark-colored individual of Isophya rizeensis from 450 meters.
     </td>
     <td>
       <img src="results/Isophya_green.jpg" alt="Isophya rizeensis green individual from 2100 meter" width="400">
-      <br><b>Figure 1b:</b> *Isophya rizeensis* green individual from 2100 meter.
+      <br><b>Figure 1b:</b> Green-colored individual of Isophya rizeensis from 2100 meters.
     </td>
   </tr>
 </table>
