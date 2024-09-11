@@ -385,7 +385,9 @@ Rscript plot_fst.R --file all_pops_fst.tsv --title "Isophya rizeensis Pairwise F
 **Isolation By Distance (IBD)** is a concept in population genetics that describes how genetic differentiation between populations increases with geographic distance. This pattern often arises due to reduced gene flow between populations that are geographically separated. Understanding IBD helps us infer the role of geographic distance in shaping genetic variation and population structure.
 In our study, we analyze IBD patterns using Fst values, which quantify genetic differentiation between populations. To assess IBD, we first need to linearize the Fst values using the formula:
 
-\[ \text{Linearized Fst} = \frac{\text{Fst}}{1 - \text{Fst}} \]
+$$
+\text{Linearized Fst} = \frac{\text{Fst}}{1 - \text{Fst}}
+$$
 
 
 ​We will use the [Geographic Distance Matrix Generator](https://biodiversityinformatics.amnh.org/open_source/gdmg/) to generate a geographic distance matrix. This requires the coordinates (latitude and longitude) of our subpopulations. 
