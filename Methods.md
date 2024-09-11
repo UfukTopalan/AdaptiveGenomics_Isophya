@@ -381,3 +381,22 @@ You can then use the [Rscript](scripts_folder/plotfst.R) to plot a heatmap:
 Rscript plot_fst.R --file all_pops_fst.tsv --title "Isophya rizeensis Pairwise Fst comparison" --output "custom_fst_plot.png"
 ```
 
+## Isolation By Distance (IBD) Patterns
+**Isolation By Distance (IBD)** is a concept in population genetics that describes how genetic differentiation between populations increases with geographic distance. This pattern often arises due to reduced gene flow between populations that are geographically separated. Understanding IBD helps us infer the role of geographic distance in shaping genetic variation and population structure.
+In our study, we analyze IBD patterns using Fst values, which quantify genetic differentiation between populations. To assess IBD, we first need to linearize the Fst values using the formula:
+
+\[ \text{Linearized Fst} = \frac{\text{Fst}}{1 - \text{Fst}} \]
+
+​We will use the [Geographic Distance Matrix Generator](https://biodiversityinformatics.amnh.org/open_source/gdmg/) to generate a geographic distance matrix. This requires the coordinates (latitude and longitude) of our subpopulations. 
+After generating both the linearized Fst values and the geographic distance matrix, we will create a `dist` object for the Mantel test. The Mantel test is a statistical test used to evaluate the correlation between two distance matrices. It produces an `r-value` that ranges from -1 to 1, where:
+- An r-value of 1 indicates a perfect positive correlation between genetic and geographic distances.
+- An r-value of -1 indicates a perfect negative correlation.
+- An r-value of 0 suggests no correlation.
+For doing the mantel test, we're going to use the [vegan](https://cran.r-project.org/web/packages/vegan/vegan.pdf) package implemented in R.
+We will use the following [R script](scripts_folder/IBD.R) to run the analysis. This script requires the `all_pops_fst.tsv` file, which contains our Fst values that we generated earlier, and a geographic distance file (`Mantel_TestGeo.tsv`).
+To run the script:
+```bash
+Rscript IBD.R --file all_pops_fst.tsv --dist Mantel_TestGeo.tsv --output ibd_plot.png
+```
+The resulting IBD plot will illustrate the relationship between genetic and geographic distances, and provide information about the Mantel test results.
+
