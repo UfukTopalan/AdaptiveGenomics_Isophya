@@ -1,5 +1,6 @@
 
 Outline
+- [Study Summary](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#study)
 - [Alignment](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#alignment-with-bwa)
 - [Paralog Elimination](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#eliminating-paralogs)
 - [Filtering High Coverage Sites](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#filtering-only-high-coverage-sites)
@@ -8,7 +9,7 @@ Outline
 - [Admixture Analysis](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#admixture)
 - [Discriminant Analysis of Principal Components](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#discriminant-analysis-of-principal-components-dapc)
 - [The Site Frequency Spectrum](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#the-site-frequency-spectrum-sfs)
-- 
+- [Genetic Differentiation - Pairwise Fst](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genetic-differentiation---pairwise-fst)
 ## STUDY
 
 Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that inhabits a broad altitudinal range from sea level to 2500 meters. We aimed to understand how this species adapts to varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.
