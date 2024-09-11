@@ -406,3 +406,68 @@ Rscript IBD.R --file all_pops_fst.tsv --dist Mantel_TestGeo.tsv --output ibd_plo
 ```
 The resulting IBD plot will illustrate the relationship between genetic and geographic distances, and provide information about the Mantel test results.
 
+## Association Analysis in Evolutionary Biology
+
+Association analysis in evolutionary biology is a statistical method used to identify correlations between genetic variants and particular traits or phenotypes. This technique helps to investigate the evolutionary forces shaping genetic variation within and between populations. It can shed light on important evolutionary questions such as the origin of new species, mechanisms of adaptation to different environments, and the role of genetic drift and natural selection in shaping genetic variation over time.
+
+### Techniques for Association Analysis
+
+We will use two techniques for association analysis implemented in ANGSD:
+
+1. **Case Control Association using Allele Frequencies**
+2. **Score Statistic**
+
+### Case Control Association using Allele Frequencies
+
+In ANGSD, we use the `-doAsso 1` option for case-control association analysis. This method basically test for differences in the allele frequencies and also genotype likelihood needs to be provided or estimated. For more information on other options, refer to [ANGSD Association](https://www.popgen.dk/angsd/index.php/Association) and its methodology explanation [here](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-12-231).
+
+#### Steps:
+
+1. **Create a -yBIN File:**
+
+   This file contains our phenotypes with 0 (as controls) and 1 (as cases). In this case, we assign Dark color to 0 and Pale color to 1.
+
+   - Extract color information from `isophya.tsv` and sort by altitude:
+     ```bash
+     sort -nk3 isophya.tsv | cut -f3 > color.ybin
+     ```
+
+   - Assign 0 and 1 based on color (Dark = 0, Pale = 1):
+     ```bash
+     sed -i 's/ Dark/ 0/g' color.ybin
+     sed -i 's/ Pale/ 1/g' color.ybin
+     ```
+
+2. **Run the Analysis:**
+
+   Use the provided [script](scripts_folder/Case_control_assoc.sh) for the case-control association analysis:
+   ```bash
+   sbatch Case_control_assoc.sh isophya71 ~/isophya/references/isophya_CAYMY.fasta
+   ```
+In the sixth column of the output, `.lrt.gz` file, the LRT (likelihood ratio test) statistics are chi-square distributed with one degree of freedom. Perform a Bonferroni correction, as done in the paralog elimination step, to find significant SNP regions associated with the phenotype (alpha = 0.05).
+
+### Score Statistic
+
+The Score Statistic is based on the score test, which is a likelihood ratio test used in statistical modeling. It assesses the association between genetic variants and phenotypes while accounting for other variables or covariates. The Score statistic evaluates the deviation of observed data from the expected distribution under the null hypothesis of no association. For more information, refer to [this publication](https://pubmed.ncbi.nlm.nih.gov/22570057/).
+
+#### Steps:
+
+1. **Prepare the Input Files:**
+
+   To perform the Score Statistic test in a generalized linear framework, posterior genotype probabilities must be provided or estimated. We will use the `-doAsso 2` option in ANGSD. The altitude information will be provided as a `yquant` file, and color information (as 0 and 1) will be given as a covariates file.
+
+   Ensure that all files (`yBin`, `yQuant`, `cov`) correspond to individuals in your BAM list in the same order.
+
+   - The altitude information is stored in `altitude.yquant`.
+   - The `yBin` file has been changed to a `.cov` file.
+
+2. **Run the Analysis:**
+
+   Use the following [script](scripts_folder/assoc_score_w_cov.sh) to perform the association analysis with covariates:
+
+   ```bash
+   sbatch assoc_score_w_cov.sh isophya71 ~/isophya/references/isophya_CAYMY.fasta
+   ```
+This time, in the seventh column of the output file, we will find the LRT values. We will perform a Bonferroni correction again to identify significant SNP regions associated with altitudinal changes.
+
+ 
