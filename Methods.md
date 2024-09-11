@@ -25,7 +25,7 @@ Outline
 - [The Site Frequency Spectrum](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#the-site-frequency-spectrum-sfs)
 - [Genetic Differentiation - Pairwise Fst](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#genetic-differentiation---pairwise-fst)
 - [Isolation By Distance](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#isolation-by-distance-ibd-patterns)
-- 
+- [GWAS (Genome-Wide Association Study)](
 ## STUDY
 
 Our research investigates the genetic mechanisms underlying adaptations in Isophya rizeensis, a univoltine bush cricket species that exhibits notable color polymorphism across its altitudinal range. At lower altitudes, up to 1100 meters, populations consist primarily of dark-colored individuals, while at altitudes above 1100 meters, green-pale individuals dominate. This species thrives across a broad range, from sea level to 2400 meters, facing varying environmental conditions, particularly temperature and precipitation fluctuations associated with altitude.  Our study aims to uncover how these populations adapt through genetic differentiation and the identification of SNPs associated with color polymorphism.
@@ -406,16 +406,16 @@ Rscript IBD.R --file all_pops_fst.tsv --dist Mantel_TestGeo.tsv --output ibd_plo
 ```
 The resulting IBD plot will illustrate the relationship between genetic and geographic distances, and provide information about the Mantel test results.
 
-## Association Analysis in Evolutionary Biology
+## Genome-Wide Association Analysis
 
-Association analysis in evolutionary biology is a statistical method used to identify correlations between genetic variants and particular traits or phenotypes. This technique helps to investigate the evolutionary forces shaping genetic variation within and between populations. It can shed light on important evolutionary questions such as the origin of new species, mechanisms of adaptation to different environments, and the role of genetic drift and natural selection in shaping genetic variation over time.
+Association Analysis in evolutionary biology is a statistical method used to identify correlations between genetic variants and specific traits or phenotypes. This analysis is crucial for understanding the evolutionary processes that shape genetic variation within and between populations. By linking genetic variants to traits, it provides insights into the mechanisms of adaptation to different environments, the origins of new species, and the influence of genetic drift and natural selection. Association analysis helps uncover how genetic variation is distributed across populations and how it relates to evolutionary changes over time.
 
 ### Techniques for Association Analysis
 
 We will use two techniques for association analysis implemented in ANGSD:
 
-1. **Case Control Association using Allele Frequencies**
-2. **Score Statistic**
+1. [**Case Control Association using Allele Frequencies**](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#case-control-association-using-allele-frequencies)
+2. [**Score Statistic**](https://github.com/UfukTopalan/RAD-Seq-data-analysis/blob/main/Methods.md#score-statistic)
 
 ### Case Control Association using Allele Frequencies
 
