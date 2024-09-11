@@ -479,10 +479,33 @@ The Score Statistic is based on the score test, which is a likelihood ratio test
    ```
 This time, in the seventh column of the output file, we will find the LRT values. We will perform a Bonferroni correction again to identify significant SNP regions associated with altitudinal changes.
 ## Pcadapt and Selection
-To identify putatively adaptive regions or regions under selection, we use `pcangsd` with two specific options:
+To identify putatively adaptive regions or regions under selection, we use `PCAngsd` with two specific options:
 
 1. **-selection**
 This option employs an extended model of [FastPCA](http://www.cell.com/ajhg/abstract/S0002-9297(16)00003-3) to perform a genome-wide selection scan along all significant principal components (PCs). The selection statistics output by this option must be converted to p-values by the user. Each column in the output reflects the selection statistics along a tested PC and these statistics are χ²-distributed with 1 degree of freedom. This approach helps in identifying regions potentially under selection based on the variation observed in the principal components.
 
 2. **-pcadapt**
-This option uses an extended model of [pcadapt](https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.12592) to perform a genome-wide selection scan across all significant PCs. It outputs z-scores, which must be converted to test statistics. The test statistics are χ²-distributed with K degrees of freedom. This method helps in identifying adaptive regions by analyzing the z-scores derived from the significant PCs. 
+This option uses an extended model of [pcadapt](https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.12592) to perform a genome-wide selection scan across all significant PCs. It outputs z-scores, which must be converted to test statistics. The test statistics are χ²-distributed with K degrees of freedom. This method helps in identifying adaptive regions by analyzing the z-scores derived from the significant PCs.
+
+### Filtering Based on Hardy-Weinberg Equilibrium 
+To ensure more reliable results, we filter our data based on Hardy-Weinberg Equilibrium (HWE). We use the `--hwe` option in pcangsd to exclude sites that deviate significantly from HWE. The `.lrt.sites` file used for this purpose contains information derived from a previous `PCAngsd` run and includes LRT values that reflect deviations from [HWE](https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13019).
+
+We can use this [script](scripts_folder/get_pcadapt_selection.sh) to scan based on pcadapt. We're going to use `.beagle` file as an input.
+
+To run the script:
+```bash
+sbatch get_pcadapt_selection.sh isophya71
+```
+As an output of the `--selection` option, we have `isophya71.selection` file, which we must do the bonferroni correction with alpha value of 0.05 as above to find the significant SNP regions under selection. Be careful about the SNP number, because we did filtering, our SNP number is highly possible to reduced. So to understand which regions are included and which regions are not, you can check the `isophya71.sites` file. In that, each line corresponds to your SNPs in respectivly to your `sites` file. and for the regions that are excluded from analysis is represent as 0 and if it's included it's represents as 1. So, with a simple command, we can find the regions that are included to analysis.
+
+First, obtain all regions and create a locus file from `.mafs` file:
+```bash
+less isophya71.mafs | cut -f1-2 | sed 1d > locus.file
+```
+
+Then paste it to sites file and exclude all the regions that have 0 value in the first column:
+```bash
+paste isophya71.sites locus.file | awk '$1==1' > included_sites.txt
+```
+
+Now we know which sites are included to pcadapt and selection analysis. For `pcadapt`
