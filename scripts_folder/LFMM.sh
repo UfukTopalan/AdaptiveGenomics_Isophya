@@ -14,4 +14,4 @@ module load mambaforge
 source activate
 conda activate R
 
-Rscript LFMM.R
+Rscript LFMM.R --datafile isophya71.lfmm --envfile env_data.txt --outfile result_LFMM.txt
