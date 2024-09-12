@@ -536,4 +536,112 @@ Now, we have both the test statistics and p-values from the PCAdapt results. You
 
 ## LFMM
 
+ In the `LFMM Analysis` section, we're focusing on Genome-Environment Association (GEA) to identify genetic loci associated with environmental variables.
+ Latent Factor Mixed Models (LFMM) is a statistical approach used to detect associations between genotypes and environmental variables while accounting for population structure. This method helps identify loci that may be under selection due to environmental pressures by considering latent factors, which represent unmeasured confounders (e.g., population structure).
  
+LFMM is particularly useful for Genome-Environment Association (GEA) studies as it models the relationship between genetic variants and environmental variables, correcting for the confounding effects of population structure. It uses z-scores to assess the association between SNPs and environmental variables, with significant associations indicating loci potentially under selection.
+
+For this analysis, we will:
+
+1. **Convert the VCF file to .ped format**: This is required as input for LFMM.
+2. **Impute Missing Genotypes using SNMF**: LFMM cannot handle missing data, so we'll impute the missing genotypes in our .lfmm file by using SNMF. SNMF estimates ancestry and genotype frequencies and imputing the missing data, generates a new .imputed.lfmm file.
+### Environmental Variables
+ We will analyze the association between genotypes and the following 7 environmental variables:
+
+- Elevation
+- EVI (Enhanced Vegetation Index)
+- MTAS (Mean Temperature of Active Season)
+- NDVI (Normalized Difference Vegetation Index)
+- PAS (Precipitation of Active Season)
+- Solar Radiation
+- TSAS (Temperature Seasonality of Active Season)
+
+#### Correlation Between Environmental Variables
+Before performing LFMM, we need to exclude highly correlated environmental variables to avoid multicollinearity. To visualize the correlation matrix, we use the corrplot function in R. Here's the [script](scripts_folder/corelation.R) we use to generate the correlation plot:
+
+```bash
+Rscript correlation.R
+```
+By running this, we can identify and exclude correlated variables before proceeding with LFMM analysis.
+For this, we'll continue to analysis with EVI, PAS and TSAS after eliminating the correlated variables and choose the most important variables for the analysis.
+
+For prepare the environmental data we can use this code in R:
+
+```r
+ndvi <- scale(ndvi$NDVI)
+prec <- scale(prec5$prec5)
+tsas <- scale(ts5$TSAS)
+env_data <- cbind(ndvi, prec, tsas)
+
+write.table(env_data, "./env_data.txt", header = T) 
+```
+
+### Data preparation
+
+#### **Imputation**
+For DAPC analysis, we already generated our VCF file. Now, we'll generate a PLINK (.ped) file from it, which is necessary for imputation and further analysis.
+
+To create a PLINK file from a VCF file, run the following command:
+
+```bash
+vcftools --vcf isophya71.vcf --plink --out myplink
+```
+
+This will generate a `.ped` file (`myplink.ped`) from the VCF file.
+
+Once the .ped file is prepared, we can proceed with genotype imputation using SNMF. To impute the missing genotypes, we use the R script provided [here](scripts_folder/Snmf_imputation.R).
+
+To run the script in shell we can use this [script](scripts_folder/Snmf_imputation.sh):
+
+```bash
+sbatch Snmf_imputation.sh
+```
+In the script, we're using K = 2 for imputation, based on prior admixture results where the best K value was determined to be 2. The script runs the SNMF for K values from 2 to 4, repeating each run 5 times. It then selects the best K value and best run, and imputes the missing genotypes accordingly. 
+
+**Remember**, if you have different data or a different best K value, you can modify the script accordingly to fit your analysis needs. 
+
+#### Adding locus and individual names to imputed file
+Since we have imputed the missing genotypes, the format of the file is correct, but both the SNP names and individual labels are missing. For LFMM analysis, we need to add this information back in order to detect loci.
+**Step 1: Obtain SNP Names**
+Each locus will be a column in the LFMM file. To extract SNP names, we can use the .mafs file with the following command:
+
+```bash
+awk '{print $1"_"$2}' isophya71.mafs | tr '\n' ' ' > locus_names.txt
+```
+Next, we need to ensure the SNP names are space-separated:
+
+```bash
+sed -i 's/\t/ /g' locus_names.txt
+```
+**Step 2: Add Individual Labels**
+After obtaining the individual names (you can get them from your `bamlist`), we will paste the individual names to the `.lfmm` file. Here's the command to make the file space-separated:
+
+```bash
+paste indv_names myplink.lfmm_imputed.lfmm | less -S | sed 's/\t/ /g' > plink_wnames.lfmm
+```
+**Step 3: Combine SNP and Individual Data**
+Now, we'll combine the SNP names and the individual-labeled LFMM file into a proper LFMM file:
+
+```bash
+cat locus_names.txt plink_wnames.lfmm > isophya71.lfmm
+```
+
+This will generate a complete `.lfmm` file, ready for LFMM analysis.
+
+#### Run LFMM Analysis
+
+Finally, we can use the provided script to perform the LFMM analysis on the cluster. The script will output significant SNP regions associated with the environmental variables for a q-value threshold of 0.05:
+
+  - *R Script for LFMM*: [LFMM.R](scripts_folder/LFMM.R)
+  - *Cluster script*: [LFMM.sh](scripts_folder/LFMM.sh)
+
+- The script runs the `lfmm_ridge` function, using the imputed genotype data and the environmental variables to fit a model. This model is used to estimate associations between the SNPs and environmental variables, using K=2 as the latent factor.
+
+- The script then performs a test using the lfmm_test function and extracts calibrated p-values to adjust for the Genomic Inflation Factor (GIF).
+
+To run the LFMM analysis on the cluster, use the following command:
+```bash
+sbatch LFMM.sh
+```
+
+The results, including significant SNP regions for all environmental variables, will be saved in the file `results_LFMM.txt`.
