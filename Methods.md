@@ -645,3 +645,17 @@ sbatch LFMM.sh
 ```
 
 The results, including significant SNP regions for all environmental variables, will be saved in the file `results_LFMM.txt`.
+
+
+## References
+- Meisner, J., & Albrechtsen, A. (2018). Inferring population structure and admixture proportions in low-depth NGS data. Genetics, 210(2), 719–731. https://doi.org/10.1534/genetics.118.301336
+- Oksanen, J., Simpson, G. L., Blanchet, F. G., Kindt, R., Legendre, P., Minchin, P. R., O’Hara, R. B., Solymos, P., Stevens, M. H., Szoecs, E., Wagner, H., Barbour, M., Bedward, M., Bolker, B., Borcard, D., Carvalho, G., Chirico, M., De Caceres, M., Durand, S., … Weedon, J. (2001). Vegan: Community ecology package. CRAN: Contributed Packages. https://doi.org/10.32614/cran.package.vegan
+- Skotte, L., Korneliussen, T. S., & Albrechtsen, A. (2012). Association testing for next‐generation Sequencing Data Using Score Statistics. Genetic Epidemiology, 36(5), 430–437. https://doi.org/10.1002/gepi.21636
+- Skotte, L., Korneliussen, T. S., & Albrechtsen, A. (2013). Estimating individual admixture proportions from next generation sequencing data. Genetics, 195(3), 693–702. https://doi.org/10.1534/genetics.113.154138
+- Çağlar, S. S., Karacaoğlu, Ç., Kuyucu, A. C., & Sağlam, İ. K. (2013). Humidity and seasonality drives body size patterns in males of the bush cricket isophya rizeensis sevgili, 2003 (Orthoptera: Tettigoniidae: Phaneropterinae). Insect Science, 21(2), 213–226. https://doi.org/10.1111/1744-7917.12027
+- Luu, K., Bazin, E., & Blum, M. G. (2016). pcadapt: An r package to perform genome scans for selection based on principal component analysis. Molecular Ecology Resources, 17(1), 67–77. https://doi.org/10.1111/1755-0998.12592
+- Kim, S. Y., Lohmueller, K. E., Albrechtsen, A., Li, Y., Korneliussen, T., Tian, G., Grarup, N., Jiang, T., Andersen, G., Witte, D., Jorgensen, T., Hansen, T., Pedersen, O., Wang, J., & Nielsen, R. (2011). Estimation of allele frequency and association mapping using next-generation sequencing data. BMC Bioinformatics, 12(1). https://doi.org/10.1186/1471-2105-12-231
+- Jombart, T., & Ahmed, I. (2011). adegenet 1.3-1: New tools for the analysis of genome-wide SNP data. Bioinformatics, 27(21), 3070–3071. https://doi.org/10.1093/bioinformatics/btr521
+- Galinsky, K. J., Bhatia, G., Loh, P.-R., Georgiev, S., Mukherjee, S., Patterson, N. J., & Price, A. L. (2016). Fast principal-component analysis reveals convergent evolution of adh1b in Europe and East Asia. The American Journal of Human Genetics, 98(3), 456–472. https://doi.org/10.1016/j.ajhg.2015.12.022
+- Korneliussen, T.S., Albrechtsen, A. & Nielsen, R. ANGSD: Analysis of Next Generation Sequencing Data. BMC Bioinformatics 15, 356 (2014). https://doi.org/10.1186/s12859-014-0356-4
+- Meisner, J., & Albrechtsen, A. (2019). Testing for hardy–weinberg equilibrium in structured populations using genotype or low‐depth next generation sequencing data. Molecular Ecology Resources, 19(5), 1144–1152. https://doi.org/10.1111/1755-0998.13019 
