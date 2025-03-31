@@ -248,7 +248,7 @@ paste noK logfile > admix_runs_LH.txt
 Import the formatted logfile into [Clumpak](https://clumpak.tau.ac.il/bestK.html) to find the most likely K value for your subpopulations.
 
 - #### Visualize Admixture Results
-  To visualize the results for the best K, create a bar plot using the R script [here](scripts_folder/plot_Admixutre.R). Import the `.qopt` file from the run with the optimal K (in this case, K=2) and an `info file` to label the populations in the plot.
+  To visualize the results for the best K, create a bar plot using the R script [here](scripts_folder/plot_Admixutre.R). Import the `.qopt` file from the run with the optimal K (in this case, K=3) and an `info file` to label the populations in the plot.
 
 Create the info file using:
 ```bash
