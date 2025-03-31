@@ -28,4 +28,7 @@ This repository is dedicated to my research and analysis of genetic data, utiliz
 - **bcftools**: Toolkit for working with VCF (Variant Call Format) files, including filtering, merging, and querying variants.
 - **bwa mem**: Alignment tool for mapping high-throughput sequencing reads against a reference genome, known for its accuracy and speed.
 
+## Citation
 
+If you use the scripts or methodologies from this repository, please cite our preprint:
+[Genomic Evidence for Altitude-Driven Adaptive Divergence In The Color-Polymorphic Bush Cricket Isophya rizeensis](https://www.authorea.com/doi/full/10.22541/au.174170725.57086658/v1)
