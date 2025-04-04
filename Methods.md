@@ -328,8 +328,16 @@ $post.grp.size
 ```bash
 sbatch DAPC.sh
 ```
+![Figure 5: DAPC density plot showing genetic clustering](results/DAPC.jpg)
+
+**Figure 5.** DAPC density plot showing the distribution of genetic variation among individuals grouped by phenotypic coloration. The **dark green** density corresponds to the individuals with green coloration, while the **dark-colored** density represents the individuals with darker phenotypes.
+
 - **Outliers Detection**: Identify outliers and SNPs with the most significant contributions to discrimination using the [snpzip](https://rdrr.io/cran/adegenet/man/snpzip.html) function with the "average" method. Check the `loadings_average.txt` file and `Rplot.pdf` for details on thresholds and outlier SNPs. Also you can use other methods for setting the treshold by using different hierarchical clustering methods such as "ward", "centroid" or "median".
 The output files from this analysis will help in understanding the genetic differentiation between groups and provide visual and statistical evidence of population structure.
+
+![Figure 6: DAPC loading plot showing significant outliers](results/LoadingPlot.jpg)
+
+**Figure 6.** Loading plot from Discriminant Analysis of Principal Components (DAPC) showing the contribution of each variable -loci- to the discriminant axes. The plot highlights the three significant outliers identified using the average clustering method, which are marked by extreme values along the axes.
 
 ## The Site Frequency Spectrum (SFS)
 The Site Frequency Spectrum (SFS) is a summary statistic used to describe the distribution of allele frequencies within a population. It shows how many sites have a particular frequency of the derived allele and helps in understanding genetic diversity and population structure.
@@ -361,6 +369,10 @@ To run the R script:
 ```bash
 Rscript plotSFS.R results_sfs/CANCK.sfs CANCK 0 results_sfs/CANCK.sfs.pdf
 ```
+
+![Figure 7: SFS plots for 11 populations](results/SFS.png)
+
+**Figure 7.** Site Frequency Spectrum (SFS) plots showing the distribution of allele frequencies across **11 subpopulations**.
 
 ## Genetic Differentiation - Pairwise Fst
 Fst (Fixation Index) is a measure of population differentiation due to genetic structure. It quantifies the genetic variance between populations relative to the total genetic variance. *Pairwise Fst* values are used to assess genetic differentiation between two populations.
@@ -403,6 +415,9 @@ You can then use the [Rscript](scripts_folder/plotfst.R) to plot a heatmap:
 ```bash
 Rscript plot_fst.R --file all_pops_fst.tsv --title "Isophya rizeensis Pairwise Fst comparison" --output "custom_fst_plot.png"
 ```
+![Figure 8: Pairwise Fst heatmap](results/Fst.jpg)
+
+**Figure 8.** Pairwise Fst heatmap showing genetic differentiation between populations. The color intensity indicates the level of differentiation, with darker colors representing higher Fst values, suggesting greater genetic divergence between the population pairs.
 
 ## Isolation By Distance (IBD) Patterns
 **Isolation By Distance (IBD)** is a concept in population genetics that describes how genetic differentiation between populations increases with geographic distance. This pattern often arises due to reduced gene flow between populations that are geographically separated. Understanding IBD helps us infer the role of geographic distance in shaping genetic variation and population structure.
@@ -426,6 +441,11 @@ To run the script:
 Rscript IBD.R --file all_pops_fst.tsv --dist Mantel_TestGeo.tsv --output ibd_plot.png
 ```
 The resulting IBD plot will illustrate the relationship between genetic and geographic distances, and provide information about the Mantel test results.
+
+![Figure 9: Isolation by Distance analysis](results/IBD.jpg)
+
+**Figure 9.** Isolation by Distance (IBD) analysis showing the relationship between geographic distance and linearized Fst values. The plot demonstrates a strong positive correlation, with a **Pearson correlation (r) of 0.805** and a **Spearman correlation (r) of 0.824**, both with **p < 0.001** significance.
+
 
 ## Genome-Wide Association Analysis
 
@@ -491,6 +511,10 @@ The Score Statistic is based on the score test, which is a likelihood ratio test
    ```
 This time, in the seventh column of the output file, we will find the LRT values. We will perform a Bonferroni correction again to identify significant SNP regions associated with altitudinal changes.
 
+![Figure 10: GWAS significant loci](results/GWAS.jpg)
+
+**Figure 10.** GWAS analysis showing significant loci associated with altitude. The plot highlights loci where allele frequencies exhibit a decreasing trend (represented by **dark red**) as altitude increases, and loci with an increasing trend in allele frequencies with rising altitude. These findings suggest a potential genetic adaptation to altitude in the studied populations.
+
 ## Pcadapt and Selection
 To identify putatively adaptive regions or regions under selection, we use `PCAngsd` with two specific options:
 
@@ -543,6 +567,11 @@ write.table(d2, file=paste0( ".pcadapt.test.txt"), quote=F, row.names=F, col.nam
 write.table(pchisq(d2, df=1, lower.tail=F), file=paste0(".pcadapt.pval.txt"), quote=F, row.names=F, col.names=F)
 ```
 Now, we have both the test statistics and p-values from the PCAdapt results. You can apply the same threshold as used for selection statistics after Bonferroni correction to distinguish between neutral and putatively adaptive SNP regions.
+
+![Figure 11: Genotype information for 3 SNPs across individuals](results/pcadapt.jpg)
+
+**Figure 11.** Genotype information for the three SNPs identified in overlapping analyses of **DAPC**, **PCA**, and **GWAS**. The plot shows the genotype distribution for each individual, with **green** representing homozygous major, **black** indicating heterozygous, and **red** denoting homozygous minor alleles.
+
 
 ## LFMM
 
