@@ -4,8 +4,9 @@ This repository is dedicated to my research and analysis of genetic data, utiliz
 
 ## Structure
 
-- `scripts_folder/`: [R/shell scripts used for all analysis](scripts_folder).
-- `methods/`: [Methodology and explanation of each analysis](Methods.md).
+- `scripts_folder/`: [R/shell Scripts Used for All Analysis](scripts_folder).
+- `methods/`: [Methodology and Explanation of Each Analysis](Methods.md).
+- `results/`; [Figures and Plots Generated from Data Analysis](results)
 
 ## Tools and Libraries
 
