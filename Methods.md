@@ -266,6 +266,10 @@ Rscript plot_Admixture.R isophya71_admix2_run1.qopt isophya71.info
 **Figure 3.** Geographic representation of admixture proportions across populations along the Fırtına Valley. Each pie chart corresponds to a sampling locality, with the colors indicating ancestry proportions for **K = 2** genetic clusters. The **black** segments represent the first ancestral population, while the **green** segments correspond to the second.
 *Note: This figure was generated using a separate custom script for geographic admixture mapping and is not produced by the `plot_Admixture.R` script mentioned above.*
 
+![Figure 4: Admixture bar plots for K=2 to K=5](results/Admixturek2_5.jpg)
+
+**Figure 4.** Admixture bar plots showing individual ancestry proportions for **K = 2** to **K = 5**. Each vertical bar represents a single individual, and each color corresponds to a different inferred ancestral population. The proportion of each color within a bar indicates the estimated genetic contribution from that ancestral population. This visualization helps identify patterns of genetic structure and potential admixture across individuals.
+
 ## Discriminant Analysis of Principal Components (DAPC)
 
 Discriminant Analysis of Principal Components (DAPC) is employed to identify and visualize the genetic structure of populations by maximizing the separation between pre-defined groups while retaining as much genetic variation as possible. This analysis helps in assessing how well individuals from different populations can be distinguished based on their genetic data. We will use the [adegenet](https://adegenet.r-forge.r-project.org/) package in R for this analysis.
