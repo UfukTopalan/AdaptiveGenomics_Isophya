@@ -218,7 +218,7 @@ Running the R script for PCA plot:
 ```bash
 Rscript plot.PCA.R -i isophya71.cov -c1-2 -a isophya71.clst -o isophya71_pca.pdf
 ```
-![Figure 2: PCA plot showing PC1 and PC2](results/Dark_Pale (1)_page-0001.jpg)
+![Figure 2: PCA plot showing PC1 and PC2](results/pca.jpg)
 
 **Figure 2.** Principal Component Analysis (PCA) of the dataset. The plot displays the first two principal components (PC1 and PC2), which explain 3.82% and 2.08% of the total variance, respectively. Each point represents an individual, positioned according to genetic variation across those components.
 
