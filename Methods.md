@@ -261,6 +261,10 @@ Plot the results with:
 ```bash
 Rscript plot_Admixture.R isophya71_admix2_run1.qopt isophya71.info
 ```
+![Figure 3: Admixture pie chart map of populations along Fırtına Valley](results/Admixture.jpg)
+
+**Figure 3.** Geographic representation of admixture proportions across populations along the Fırtına Valley. Each pie chart corresponds to a sampling locality, with the colors indicating ancestry proportions for **K = 2** genetic clusters. The **black** segments represent the first ancestral population, while the **green** segments correspond to the second.
+*Note: This figure was generated using a separate custom script for geographic admixture mapping and is not produced by the `plot_Admixture.R` script mentioned above.*
 
 ## Discriminant Analysis of Principal Components (DAPC)
 
