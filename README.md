@@ -31,5 +31,5 @@ This repository is dedicated to my research and analysis of genetic data, utiliz
 
 ## Citation
 
-If you use the scripts or methodologies from this repository, please cite our preprint:
+If you use the scripts or methodologies from this repository, please cite this article:
 [Topalan, U., Kuyucu, A.C., Farid, S.A. et al. Genome-wide analysis reveals altitude-associated divergence in a colour-polymorphic insect. Heredity (2026). https://doi.org/10.1038/s41437-026-00899-6](https://doi.org/10.1038/s41437-026-00899-6)
