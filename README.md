@@ -32,4 +32,4 @@ This repository is dedicated to my research and analysis of genetic data, utiliz
 ## Citation
 
 If you use the scripts or methodologies from this repository, please cite our preprint:
-[Genomic Evidence for Altitude-Driven Adaptive Divergence In The Color-Polymorphic Bush Cricket Isophya rizeensis](https://www.authorea.com/doi/full/10.22541/au.174170725.57086658/v1)
+[Topalan, U., Kuyucu, A.C., Farid, S.A. et al. Genome-wide analysis reveals altitude-associated divergence in a colour-polymorphic insect. Heredity (2026). https://doi.org/10.1038/s41437-026-00899-6](https://doi.org/10.1038/s41437-026-00899-6)
